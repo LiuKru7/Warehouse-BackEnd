@@ -1,14 +1,18 @@
-// src/server.ts
-
 import express from 'express';
-
+import mongoose from 'mongoose';
+const router = require("./router/mainRouter")
+const cors = require('cors')
+require("dotenv").config()
 const server = express();
-const PORT = 3080;
 
-server.get('/', (req, res) => {
-    res.send('Hello from TypeScript backend!');
+mongoose.connect(process.env.DB_KEY!)
+    .then(() => {
+        console.log("Connection success");
+    }).catch((e: string) => {
+    console.log("ERROR", e);
 });
-
-server.listen(PORT, () => {
-    console.log(`Server is running at http://localhost:${PORT}`);
-});
+server.use(express.json());
+server.use(cors());
+server.use("/", router);
+const port = 3080;
+server.listen(port);
