@@ -12,9 +12,8 @@ module.exports = {
         const parts = await  allPartsDb.find()
         resSend(res, false, {parts}, "")
     },
-
     postAddPart:async (req:any, res:any) => {
-        const newPart = new allPartsDb(req.body);
+        const newPart = new allPartsDb(req.body.requestData);
         try {
             await newPart.save();
             resSend(res, false, { newPart }, "Part added successfully");
@@ -22,4 +21,5 @@ module.exports = {
             resSend(res, true, null, "Failed to add part");
         }
     }
+
 }
